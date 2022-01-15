@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css"
 
-function App() {
+import { HotKeys, configure } from "react-hotkeys";
+import confetti from "canvas-confetti";
+
+export default function App() {
+  const string = "changworks";
+
+  const chars = string.split("");
+
+  const charsMap = chars.reduce(function (obj, e) {
+    obj[e] = "changworks".split(e)[0].concat(e).split("").join(" ");
+    return obj;
+  }, {});
+
+  const keyMap = charsMap;
+
+  const handlerMap = chars.reduce(function (obj, e) {
+    obj[e] = () => confetti();
+    return obj;
+  }, {});
+
+  const handlers = handlerMap;
+  configure({ ignoreTags: [] });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HotKeys keyMap={keyMap} handlers={handlers}>
+      <label for="name">Type "changworks"</label>
+      <input name="name" className='input'/>
+    </HotKeys>
   );
 }
-
-export default App;
